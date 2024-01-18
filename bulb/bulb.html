@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Light Bulb Visualization</title>
+  <style>
+    .bulb-container {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+    }
+    .bulb {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .on {
+      background-color: yellow;
+    }
+    .off {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+  <div id="bulb-container" class="bulb-container"></div>
+  <input type="range" id="step-slider" min="1" max="100" value="1">
+  <span id="step-counter">1</span>
+  <script>
+    const bulbContainer = document.getElementById('bulb-container');
+    const stepSlider = document.getElementById('step-slider');
+    const stepCounter = document.getElementById('step-counter');
+    
+    // Initialize bulbs
+    let bulbs = Array.from({ length: 100 }, () => true);
+
+    // Function to toggle bulbs based on step
+    function toggleBulbs(step) {
+      for (let i = step - 1; i < bulbs.length; i += step) {
+        bulbs[i] = !bulbs[i];
+      }
+    }
+
+    // Function to update the bulb visualization
+    function updateBulbVisualization() {
+      bulbContainer.innerHTML = '';
+      bulbs.forEach((isOn, index) => {
+        const bulb = document.createElement('div');
+        bulb.className = `bulb ${isOn ? 'on' : 'off'}`;
+        bulb.textContent = index + 1; // Bulb numbers start from 1
+        bulbContainer.appendChild(bulb);
+      });
+    }
+
+    // Event listener for slider change
+    stepSlider.addEventListener('input', () => {
+      const step = parseInt(stepSlider.value);
+      // Reset bulbs to initial state before applying toggle
+      bulbs = Array.from({ length: 100 }, () => true);
+      for (let i = 2; i <= step; i++) {
+        toggleBulbs(i);
+      }
+      updateBulbVisualization();
+      stepCounter.textContent = step;
+    });
+
+    // Initial visualization
+    updateBulbVisualization();
+  </script>
+</body>
+</html>
