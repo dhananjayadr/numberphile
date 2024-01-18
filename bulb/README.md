@@ -1,4 +1,4 @@
-# Light Bulb Problem
+# Light Switch Problem
 
 This script visualizes the state of light bulbs based on a specific pattern of toggling.
 
